@@ -1,0 +1,29 @@
+1. How does CI/CD improve collaboration in ML teams?
+
+CI/CD allows multiple data scientists and ML engineers to work together without breaking each other’s work. Every code change is automatically tested, validated, and versioned. This ensures that model training, evaluation, and deployment happen in a consistent, reproducible, and automated way. It reduces “it worked on my machine” issues and builds trust between team members.
+
+2. What happens if the evaluation score is below a defined threshold?
+
+If the model’s performance (accuracy, F1-score, etc.) is below a defined threshold, the CI/CD pipeline can automatically fail the workflow or trigger a retraining step. This prevents poor-quality models from being deployed to production and ensures that only models meeting the performance criteria move forward.
+
+3. How can retraining or drift detection be integrated into this workflow?
+
+You can add additional steps or workflows that:
+
+- Periodically fetch new data.
+- Compare current data distribution with past data (detect drift).
+- If drift is detected, automatically trigger retraining and evaluation jobs.
+
+These steps ensure the model stays up-to-date and adapts to changes in real-world data.
+
+4. What steps are needed to deploy this workflow to production (e.g., AWS, Kubernetes)?
+
+Typical steps to add a CD (Continuous Deployment) stage:
+
+- Build a Docker image for serving the model using `Dockerfile.serve`.
+- Push the image to a container registry (Docker Hub, AWS ECR, or GCP Container Registry).
+- Deploy the container on a hosting platform such as AWS (ECS/EKS), GCP (GKE), or a Kubernetes cluster.
+- Store required credentials and secrets securely in your CI/CD provider (e.g., GitHub Actions secrets, AWS Secrets Manager).
+- Optionally add a manual approval (production gate) before promoting the image to production.
+
+See `Dockerfile.serve` and the project `README.md` for examples and deployment details.
